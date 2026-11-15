@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Masuk atau Daftar</title>
+<meta name="description" content="Updatin | Masuk ke akun Updatin atau daftar akun baru untuk berlangganan dan memakai Ranking KOL, pembuat MoU, dashboard, dan laporan kampanye.">
+<meta property="og:title" content="Masuk atau Daftar">
+<meta property="og:description" content="Updatin | Masuk ke akun Updatin atau daftar akun baru untuk berlangganan dan memakai Ranking KOL, pembuat MoU, dashboard, dan laporan kampanye.">
+<meta property="og:type" content="website">
+<link rel="icon" href="./favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600;700&family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap">
+<link rel="stylesheet" href="./styles.css">
+</head>
+<body data-page="masuk">
+<header class="site-header">
+  <div class="container">
+    <a class="logo" href="./" aria-label="Updatin, beranda"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#0a6b5e"/><path d="M7 22h18" stroke="#fff" stroke-width="2" stroke-linecap="round"/><path d="M9 22v-4M13 22v-7M17 22v-4M21 22v-10M25 22v-4" stroke="#fff" stroke-width="2" stroke-linecap="round"/><circle cx="21" cy="9" r="2" fill="#f0b23a"/></svg><span>Updatin</span></a>
+    <button class="nav-toggle" type="button" aria-label="Buka menu" aria-expanded="false" aria-controls="nav"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+    <nav class="nav" id="nav" aria-label="Menu utama"><a href="./ranking">Ranking KOL</a><a href="./rate-card">Buat Rate Card</a><a href="./cek-er">Cek ER</a><a href="./mou">Buat MoU</a><a href="./kamus">Kamus KOL</a><a href="./langganan">Harga</a><span class="auth-slot" id="auth-slot"><a class="btn" href="./masuk">Masuk</a></span></nav>
+  </div>
+</header>
+<main>
+<section class="page-head">
+  <div class="container">
+    <span class="eyebrow">Akun</span>
+    <h1 id="au-title">Masuk ke Updatin</h1>
+    <p class="lead" id="au-lead">Masuk untuk membuka dashboard dan mengelola langganan Anda.</p>
+  </div>
+  <div class="ruler" aria-hidden="true"></div>
+</section>
+
+<section class="section tight">
+  <div class="container auth-wrap">
+    <div class="panel stack">
+      <div class="seg" id="au-mode" role="group" aria-label="Pilih masuk atau daftar">
+        <button type="button" data-mode="masuk" aria-pressed="true">Masuk</button>
+        <button type="button" data-mode="daftar" aria-pressed="false">Daftar</button>
+      </div>
+      <form class="stack" id="au-form" novalidate>
+        <div class="field" id="au-name-field" hidden><label for="au-name">Nama</label><input type="text" id="au-name" autocomplete="name"></div>
+        <div class="field" id="au-email-field"><label for="au-email">Email</label><input type="email" id="au-email" autocomplete="email" inputmode="email"></div>
+        <div class="field" id="au-pass-field"><label for="au-pass" id="au-pass-label">Kata sandi</label><input type="password" id="au-pass" autocomplete="current-password"><span class="hint" id="au-pass-hint" hidden>Minimal 8 karakter.</span></div>
+        <p class="msg" id="au-msg" role="alert" hidden></p>
+        <button class="btn" type="submit" id="au-submit">Masuk</button>
+      </form>
+      <div class="stack" id="au-google-wrap" hidden>
+        <div class="or"><span>atau</span></div>
+        <button class="btn ghost" type="button" id="au-google">Lanjutkan dengan Google</button>
+      </div>
+      <p class="small"><button type="button" class="linklike" id="au-forgot">Lupa kata sandi?</button></p>
+    </div>
+
+    <div class="stack">
+      <h2>Dengan akun Updatin</h2>
+      <ul class="checks">
+        <li>Rate card, shortlist, dan laporan kampanye tersimpan di akun dan bisa dibuka dari perangkat lain.</li>
+        <li>Akun dengan langganan aktif membuka Ranking KOL, pembuat MoU, dashboard, serta cetak dan salin rate card.</li>
+        <li>Cek ER, Kamus KOL, dan pratinjau rate card tetap bisa dipakai tanpa akun.</li>
+      </ul>
+      <div><a class="btn ghost" href="./langganan">Lihat paket langganan</a></div>
+    </div>
+  </div>
+</section>
+
+</main>
+<footer class="site-footer">
+  <div class="container">
+    <div class="about stack">
+      <a class="logo" href="./"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#0a6b5e"/><path d="M7 22h18" stroke="#fff" stroke-width="2" stroke-linecap="round"/><path d="M9 22v-4M13 22v-7M17 22v-4M21 22v-10M25 22v-4" stroke="#fff" stroke-width="2" stroke-linecap="round"/><circle cx="21" cy="9" r="2" fill="#f0b23a"/></svg><span>Updatin</span></a>
+      <p class="muted">Menakar nilai kreator dengan data. Alat rate card, engagement rate, dan kerja sama KOL untuk TikTok, Instagram, dan YouTube.</p>
+    </div>
+    <div><h3>Untuk KOL</h3><ul><li><a href="./rate-card">Buat Rate Card</a></li><li><a href="./cek-er">Cek ER</a></li><li><a href="./mou">Buat MoU</a></li></ul></div>
+    <div><h3>Untuk Brand</h3><ul><li><a href="./ranking">Ranking KOL</a></li><li><a href="./dashboard">Shortlist KOL</a></li><li><a href="./dashboard">Laporan Kampanye</a></li></ul></div>
+    <div><h3>Akun</h3><ul><li><a href="./langganan">Harga dan langganan</a></li><li><a href="./masuk">Masuk atau daftar</a></li><li><a href="./kamus">Kamus KOL</a></li></ul></div>
+    <p class="legal">Estimasi tarif dihitung dari rumus yang dijelaskan di halaman Rate Card dan bukan harga resmi dari kreator. Cek ER, Kamus KOL, dan pratinjau rate card terbuka untuk semua pengunjung; fitur lain memerlukan akun dengan langganan aktif.</p>
+  </div>
+</footer>
+<script src="./config.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" defer></script>
+<script src="./app.js" defer></script>
+</body>
+</html>

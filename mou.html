@@ -19,7 +19,7 @@
   <div class="container">
     <a class="logo" href="./" aria-label="Updatin, beranda"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#0a6b5e"/><path d="M7 22h18" stroke="#fff" stroke-width="2" stroke-linecap="round"/><path d="M9 22v-4M13 22v-7M17 22v-4M21 22v-10M25 22v-4" stroke="#fff" stroke-width="2" stroke-linecap="round"/><circle cx="21" cy="9" r="2" fill="#f0b23a"/></svg><span>Updatin</span></a>
     <button class="nav-toggle" type="button" aria-label="Buka menu" aria-expanded="false" aria-controls="nav"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
-    <nav class="nav" id="nav" aria-label="Menu utama"><a href="./ranking">Ranking KOL</a><a href="./rate-card">Buat Rate Card</a><a href="./cek-er">Cek ER</a><a href="./mou" aria-current="page">Buat MoU</a><a href="./kamus">Kamus KOL</a><a class="btn" href="./dashboard">Dashboard</a></nav>
+    <nav class="nav" id="nav" aria-label="Menu utama"><a href="./ranking">Ranking KOL</a><a href="./rate-card">Buat Rate Card</a><a href="./cek-er">Cek ER</a><a href="./mou" aria-current="page">Buat MoU</a><a href="./kamus">Kamus KOL</a><a href="./langganan">Harga</a><span class="auth-slot" id="auth-slot"><a class="btn" href="./masuk">Masuk</a></span></nav>
   </div>
 </header>
 <main>
@@ -32,6 +32,7 @@
   <div class="ruler" aria-hidden="true"></div>
 </section>
 
+<div id="app-content" hidden>
 <section class="section tight">
   <div class="container split">
     <form class="stack" id="mou-form" novalidate>
@@ -87,6 +88,8 @@
     </div>
   </div>
 </section>
+</div>
+<section class="section tight" id="gate" hidden></section>
 
 </main>
 <footer class="site-footer">
@@ -97,10 +100,12 @@
     </div>
     <div><h3>Untuk KOL</h3><ul><li><a href="./rate-card">Buat Rate Card</a></li><li><a href="./cek-er">Cek ER</a></li><li><a href="./mou">Buat MoU</a></li></ul></div>
     <div><h3>Untuk Brand</h3><ul><li><a href="./ranking">Ranking KOL</a></li><li><a href="./dashboard">Shortlist KOL</a></li><li><a href="./dashboard">Laporan Kampanye</a></li></ul></div>
-    <div><h3>Belajar</h3><ul><li><a href="./kamus">Kamus KOL</a></li><li><a href="./#faq">Pertanyaan umum</a></li></ul></div>
-    <p class="legal">Versi awal. Daftar KOL pada situs ini adalah data contoh dengan akun fiktif, dan estimasi tarif dihitung dari rumus yang dijelaskan di halaman Rate Card. Data yang Anda isi tersimpan di browser Anda sendiri.</p>
+    <div><h3>Akun</h3><ul><li><a href="./langganan">Harga dan langganan</a></li><li><a href="./masuk">Masuk atau daftar</a></li><li><a href="./kamus">Kamus KOL</a></li></ul></div>
+    <p class="legal">Estimasi tarif dihitung dari rumus yang dijelaskan di halaman Rate Card dan bukan harga resmi dari kreator. Cek ER, Kamus KOL, dan pratinjau rate card terbuka untuk semua pengunjung; fitur lain memerlukan akun dengan langganan aktif.</p>
   </div>
 </footer>
+<script src="./config.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" defer></script>
 <script src="./app.js" defer></script>
 </body>
 </html>

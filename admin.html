@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Panel Admin</title>
+<meta name="description" content="Updatin | Panel admin Updatin: konfirmasi langganan, paket dan harga, daftar KOL, pengguna dan role, serta isi Kamus KOL.">
+<meta property="og:title" content="Panel Admin">
+<meta property="og:description" content="Updatin | Panel admin Updatin: konfirmasi langganan, paket dan harga, daftar KOL, pengguna dan role, serta isi Kamus KOL.">
+<meta property="og:type" content="website">
+<link rel="icon" href="./favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600;700&family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap">
+<link rel="stylesheet" href="./styles.css">
+</head>
+<body data-page="admin">
+<header class="site-header">
+  <div class="container">
+    <a class="logo" href="./" aria-label="Updatin, beranda"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#0a6b5e"/><path d="M7 22h18" stroke="#fff" stroke-width="2" stroke-linecap="round"/><path d="M9 22v-4M13 22v-7M17 22v-4M21 22v-10M25 22v-4" stroke="#fff" stroke-width="2" stroke-linecap="round"/><circle cx="21" cy="9" r="2" fill="#f0b23a"/></svg><span>Updatin</span></a>
+    <button class="nav-toggle" type="button" aria-label="Buka menu" aria-expanded="false" aria-controls="nav"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+    <nav class="nav" id="nav" aria-label="Menu utama"><a href="./ranking">Ranking KOL</a><a href="./rate-card">Buat Rate Card</a><a href="./cek-er">Cek ER</a><a href="./mou">Buat MoU</a><a href="./kamus">Kamus KOL</a><a href="./langganan">Harga</a><span class="auth-slot" id="auth-slot"><a class="btn" href="./masuk">Masuk</a></span></nav>
+  </div>
+</header>
+<main>
+<section class="page-head">
+  <div class="container">
+    <span class="eyebrow">Admin</span>
+    <h1>Panel admin</h1>
+  </div>
+  <div class="ruler" aria-hidden="true"></div>
+</section>
+
+<div id="app-content" hidden>
+<section class="section tight">
+  <div class="container stack">
+    <div class="seg" id="ad-tabs" role="group" aria-label="Bagian panel admin"></div>
+
+    <!-- Ringkasan -->
+    <div class="stack" id="ad-ringkasan">
+      <h2>Ringkasan</h2>
+      <div class="kv c4" id="ad-stats"></div>
+    </div>
+
+    <!-- Langganan -->
+    <div class="stack" id="ad-langganan" hidden>
+      <h2>Langganan</h2>
+      <p class="muted">Aktifkan pesanan setelah pembayaran diterima. Masa berlaku dihitung sejak diaktifkan, atau menyambung dari langganan yang masih berjalan.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Pengguna</th><th>Paket</th><th class="r">Harga</th><th>Dipesan</th><th>Catatan</th><th>Status</th><th>Masa berlaku</th><th><span class="sr">Aksi</span></th></tr></thead>
+          <tbody id="ad-subs"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Paket -->
+    <div class="stack" id="ad-paket" hidden>
+      <h2>Paket langganan</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Nama</th><th class="r">Harga</th><th>Durasi</th><th>Status</th><th>Keterangan</th><th><span class="sr">Aksi</span></th></tr></thead>
+          <tbody id="ad-plans"></tbody>
+        </table>
+      </div>
+      <form class="panel stack" id="ad-plan-form" novalidate>
+        <h3 id="ad-plan-title">Tambah paket</h3>
+        <input type="hidden" id="ad-plan-id">
+        <div class="form-grid">
+          <div class="field"><label for="ad-plan-name">Nama paket</label><input type="text" id="ad-plan-name" autocomplete="off"></div>
+          <div class="field"><label for="ad-plan-price">Harga (Rp)</label><input class="num" type="text" inputmode="numeric" id="ad-plan-price"></div>
+          <div class="field"><label for="ad-plan-months">Durasi (bulan)</label><input class="num" type="number" id="ad-plan-months" min="1" max="36" value="1"></div>
+          <div class="field"><label for="ad-plan-active">Status</label><select id="ad-plan-active"><option value="true">Aktif, tampil di halaman Harga</option><option value="false">Nonaktif, disembunyikan</option></select></div>
+          <div class="field full"><label for="ad-plan-desc">Keterangan singkat</label><input type="text" id="ad-plan-desc" maxlength="200" autocomplete="off"></div>
+        </div>
+        <p class="msg" id="ad-plan-msg" role="alert" hidden></p>
+        <div class="row"><button class="btn" type="submit">Simpan paket</button><button class="btn ghost" type="button" id="ad-plan-cancel" hidden>Batal ubah</button></div>
+      </form>
+      <form class="panel stack" id="ad-pay-form" novalidate>
+        <h3>Instruksi pembayaran</h3>
+        <div class="field"><label for="ad-pay">Teks yang tampil saat user memesan paket</label><textarea id="ad-pay" placeholder="mis. Transfer ke Bank ... nomor rekening ... atas nama ..., lalu kirim bukti ke WhatsApp ..."></textarea><span class="hint">Hanya terlihat oleh pengguna yang sudah login.</span></div>
+        <div><button class="btn" type="submit">Simpan instruksi</button></div>
+      </form>
+    </div>
+
+    <!-- KOL -->
+    <div class="stack" id="ad-kol" hidden>
+      <h2>Daftar KOL</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>KOL</th><th>Platform</th><th>Niche</th><th class="r">Pengikut</th><th class="r">Tayangan</th><th class="r">ER</th><th><span class="sr">Aksi</span></th></tr></thead>
+          <tbody id="ad-kols"></tbody>
+        </table>
+      </div>
+      <form class="panel stack" id="ad-kol-form" novalidate>
+        <h3 id="ad-kol-title">Tambah KOL</h3>
+        <input type="hidden" id="ad-kol-id">
+        <div class="form-grid">
+          <div class="field"><label for="ad-kol-name">Nama</label><input type="text" id="ad-kol-name" autocomplete="off"></div>
+          <div class="field"><label for="ad-kol-handle">Nama akun</label><input type="text" id="ad-kol-handle" placeholder="@namaakun" autocomplete="off"></div>
+          <div class="field"><label for="ad-kol-platform">Platform</label><select id="ad-kol-platform"></select></div>
+          <div class="field"><label for="ad-kol-niche">Niche</label><select id="ad-kol-niche"></select></div>
+          <div class="field"><label for="ad-kol-city">Kota</label><input type="text" id="ad-kol-city" autocomplete="off"></div>
+          <div class="field"><label for="ad-kol-followers">Jumlah pengikut</label><input class="num" type="text" inputmode="numeric" id="ad-kol-followers"></div>
+          <div class="field"><label for="ad-kol-views">Rata-rata tayangan</label><input class="num" type="text" inputmode="numeric" id="ad-kol-views"></div>
+          <div class="field"><label for="ad-kol-er">Engagement rate (%)</label><input class="num" type="text" inputmode="decimal" id="ad-kol-er"></div>
+        </div>
+        <p class="msg" id="ad-kol-msg" role="alert" hidden></p>
+        <div class="row"><button class="btn" type="submit">Simpan KOL</button><button class="btn ghost" type="button" id="ad-kol-cancel" hidden>Batal ubah</button></div>
+      </form>
+    </div>
+
+    <!-- Pengguna -->
+    <div class="stack" id="ad-pengguna" hidden>
+      <h2>Pengguna dan role</h2>
+      <p class="muted">Admin tidak bisa mengubah role miliknya sendiri, sehingga selalu ada minimal satu admin.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Pengguna</th><th>Role</th><th>Langganan</th><th>Terdaftar</th><th><span class="sr">Aksi</span></th></tr></thead>
+          <tbody id="ad-users"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Kamus -->
+    <div class="stack" id="ad-kamus" hidden>
+      <h2>Kamus KOL</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Istilah</th><th>Penjelasan</th><th><span class="sr">Aksi</span></th></tr></thead>
+          <tbody id="ad-terms"></tbody>
+        </table>
+      </div>
+      <form class="panel stack" id="ad-term-form" novalidate>
+        <h3 id="ad-term-title">Tambah istilah</h3>
+        <input type="hidden" id="ad-term-id">
+        <div class="field"><label for="ad-term">Istilah</label><input type="text" id="ad-term" autocomplete="off"></div>
+        <div class="field"><label for="ad-def">Penjelasan</label><textarea id="ad-def"></textarea></div>
+        <p class="msg" id="ad-term-msg" role="alert" hidden></p>
+        <div class="row"><button class="btn" type="submit">Simpan istilah</button><button class="btn ghost" type="button" id="ad-term-cancel" hidden>Batal ubah</button></div>
+      </form>
+    </div>
+  </div>
+</section>
+</div>
+
+<section class="section tight" id="gate" hidden></section>
+
+</main>
+<footer class="site-footer">
+  <div class="container">
+    <div class="about stack">
+      <a class="logo" href="./"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#0a6b5e"/><path d="M7 22h18" stroke="#fff" stroke-width="2" stroke-linecap="round"/><path d="M9 22v-4M13 22v-7M17 22v-4M21 22v-10M25 22v-4" stroke="#fff" stroke-width="2" stroke-linecap="round"/><circle cx="21" cy="9" r="2" fill="#f0b23a"/></svg><span>Updatin</span></a>
+      <p class="muted">Menakar nilai kreator dengan data. Alat rate card, engagement rate, dan kerja sama KOL untuk TikTok, Instagram, dan YouTube.</p>
+    </div>
+    <div><h3>Untuk KOL</h3><ul><li><a href="./rate-card">Buat Rate Card</a></li><li><a href="./cek-er">Cek ER</a></li><li><a href="./mou">Buat MoU</a></li></ul></div>
+    <div><h3>Untuk Brand</h3><ul><li><a href="./ranking">Ranking KOL</a></li><li><a href="./dashboard">Shortlist KOL</a></li><li><a href="./dashboard">Laporan Kampanye</a></li></ul></div>
+    <div><h3>Akun</h3><ul><li><a href="./langganan">Harga dan langganan</a></li><li><a href="./masuk">Masuk atau daftar</a></li><li><a href="./kamus">Kamus KOL</a></li></ul></div>
+    <p class="legal">Estimasi tarif dihitung dari rumus yang dijelaskan di halaman Rate Card dan bukan harga resmi dari kreator. Cek ER, Kamus KOL, dan pratinjau rate card terbuka untuk semua pengunjung; fitur lain memerlukan akun dengan langganan aktif.</p>
+  </div>
+</footer>
+<script src="./config.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" defer></script>
+<script src="./app.js" defer></script>
+</body>
+</html>

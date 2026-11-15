@@ -1,31 +1,47 @@
 # Updatin
 
-Situs statis untuk kerja sama KOL: rate card, cek engagement rate, ranking KOL, draf MoU, kamus istilah, dan dashboard (shortlist serta laporan kampanye).
+Situs untuk kerja sama KOL: rate card, cek engagement rate, ranking KOL, draf MoU, kamus istilah, dashboard (shortlist dan laporan kampanye), langganan, dan panel admin.
 
-Tanpa dependensi dan tanpa proses build. Semua berkas berada di satu folder.
+Halaman statis tanpa proses build. Login, role, langganan, dan data pengguna memakai Supabase.
 
-## Deploy ke Vercel
+## Tingkat akses
 
-1. Unggah semua berkas di folder ini ke sebuah repositori GitHub.
-2. Buka vercel.com/new, pilih repositori tersebut.
-3. Framework Preset: **Other**. Kosongkan Build Command dan Output Directory.
-4. Pilih Deploy.
+| Tingkat | Syarat | Yang bisa dipakai |
+| --- | --- | --- |
+| Tamu | belum login | Beranda, Kamus KOL, Cek ER, pratinjau rate card, halaman Harga |
+| User | sudah login | sama seperti tamu, ditambah memesan paket langganan |
+| Pelanggan | login + langganan aktif | Ranking KOL dan shortlist, MoU, dashboard, laporan kampanye, simpan/cetak/salin rate card |
+| Admin | role admin | semua fitur tanpa berlangganan, ditambah Panel admin |
 
-`vercel.json` mengaktifkan alamat tanpa akhiran `.html` (misalnya `/rate-card`).
+Pembatasan data dijaga di database (Row Level Security), bukan hanya di tampilan.
 
-## Isi berkas
+## Menghubungkan Supabase
 
-- `index.html` beranda
-- `ranking.html` ranking KOL (data contoh, akun fiktif)
-- `rate-card.html` pembuat rate card
-- `cek-er.html` kalkulator engagement rate
-- `mou.html` pembuat draf MoU
-- `kamus.html` kamus istilah
-- `dashboard.html` rate card tersimpan, shortlist, laporan kampanye
-- `styles.css`, `app.js` tampilan dan logika bersama
+1. Buat proyek di supabase.com.
+2. Buka SQL Editor, tempel seluruh isi `supabase-setup.sql`, lalu jalankan.
+3. Authentication > URL Configuration: isi Site URL dengan alamat situs (mis. `https://updatin.vercel.app`) dan tambahkan `https://updatin.vercel.app/**` ke Redirect URLs.
+4. Isi `supabaseUrl` dan `supabaseKey` di `config.js` (Project URL dan publishable key).
+5. Daftar di situs. **Akun pertama yang mendaftar otomatis menjadi admin.**
+6. Di Panel admin > Paket: atur harga dan durasi paket, aktifkan, lalu isi instruksi pembayaran.
 
-## Batasan versi ini
+Login Google (opsional): aktifkan provider Google di Supabase (butuh OAuth Client ID dan Secret dari Google Cloud), lalu ubah `googleEnabled` menjadi `true` di `config.js`.
 
-- Belum ada akun atau login. Data pengguna tersimpan di localStorage browser.
-- Daftar KOL adalah data contoh di dalam `app.js` (konstanta `KOLS`).
-- Angka pengikut dan tayangan diisi manual, belum diambil dari API platform.
+## Alur langganan
+
+User memilih paket di halaman Harga, membayar sesuai instruksi, lalu admin mengaktifkan pesanannya di Panel admin > Langganan. Masa berlaku dihitung dalam bulan sejak diaktifkan, atau menyambung dari langganan yang masih berjalan.
+
+## Berkas
+
+- `index.html`, `ranking.html`, `rate-card.html`, `cek-er.html`, `mou.html`, `kamus.html`, `dashboard.html`
+- `masuk.html` masuk, daftar, dan atur ulang kata sandi
+- `langganan.html` paket, pemesanan, dan riwayat langganan
+- `admin.html` panel admin
+- `styles.css`, `app.js`, `config.js`
+- `supabase-setup.sql` skema database, aturan akses, dan data awal
+- `vercel.json` alamat tanpa akhiran `.html`
+
+## Batasan
+
+- Pembayaran dikonfirmasi manual oleh admin; belum terhubung ke payment gateway.
+- Daftar KOL awal adalah data contoh (akun fiktif berakhiran `_demo`); angka diisi manual, belum diambil dari API platform.
+- Cetak dan salin rate card dikunci di tampilan; perhitungannya berjalan di browser.

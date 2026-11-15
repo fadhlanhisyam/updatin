@@ -1,0 +1,11 @@
+// Pengaturan Updatin.
+// Isi dua nilai di bawah dari dashboard Supabase proyek Anda (Project Settings > API Keys / Data API).
+window.UPDATIN_CONFIG = {
+  // Project URL, contoh: "https://abcdefghijkl.supabase.co"
+  supabaseUrl: "",
+  // Publishable key (sb_publishable_...) atau anon key. Kunci ini memang untuk dipasang di situs.
+  // JANGAN isi dengan secret key atau service_role key.
+  supabaseKey: "",
+  // Ubah menjadi true setelah login Google diaktifkan di Supabase (Authentication > Sign In / Providers > Google).
+  googleEnabled: false,
+};

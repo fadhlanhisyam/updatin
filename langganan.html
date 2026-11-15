@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Harga dan Langganan</title>
+<meta name="description" content="Updatin | Pilih paket langganan Updatin untuk membuka Ranking KOL, shortlist, pembuat MoU, dashboard, laporan kampanye, serta simpan dan cetak rate card.">
+<meta property="og:title" content="Harga dan Langganan">
+<meta property="og:description" content="Updatin | Pilih paket langganan Updatin untuk membuka Ranking KOL, shortlist, pembuat MoU, dashboard, laporan kampanye, serta simpan dan cetak rate card.">
+<meta property="og:type" content="website">
+<link rel="icon" href="./favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600;700&family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap">
+<link rel="stylesheet" href="./styles.css">
+</head>
+<body data-page="langganan">
+<header class="site-header">
+  <div class="container">
+    <a class="logo" href="./" aria-label="Updatin, beranda"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#0a6b5e"/><path d="M7 22h18" stroke="#fff" stroke-width="2" stroke-linecap="round"/><path d="M9 22v-4M13 22v-7M17 22v-4M21 22v-10M25 22v-4" stroke="#fff" stroke-width="2" stroke-linecap="round"/><circle cx="21" cy="9" r="2" fill="#f0b23a"/></svg><span>Updatin</span></a>
+    <button class="nav-toggle" type="button" aria-label="Buka menu" aria-expanded="false" aria-controls="nav"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+    <nav class="nav" id="nav" aria-label="Menu utama"><a href="./ranking">Ranking KOL</a><a href="./rate-card">Buat Rate Card</a><a href="./cek-er">Cek ER</a><a href="./mou">Buat MoU</a><a href="./kamus">Kamus KOL</a><a href="./langganan" aria-current="page">Harga</a><span class="auth-slot" id="auth-slot"><a class="btn" href="./masuk">Masuk</a></span></nav>
+  </div>
+</header>
+<main>
+<section class="page-head">
+  <div class="container">
+    <span class="eyebrow">Harga</span>
+    <h1>Paket langganan</h1>
+    <p class="lead">Satu langganan membuka semua fitur: Ranking KOL dan shortlist, pembuat MoU, dashboard, laporan kampanye, serta simpan dan cetak rate card.</p>
+  </div>
+  <div class="ruler" aria-hidden="true"></div>
+</section>
+
+<section class="section tight">
+  <div class="container stack">
+    <div class="panel stack" id="lg-status" hidden></div>
+
+    <h2>Pilih paket</h2>
+    <div class="grid c3" id="lg-plans"><p class="muted">Memuat paket…</p></div>
+
+    <form class="panel stack" id="lg-order" hidden novalidate>
+      <h2>Konfirmasi pesanan</h2>
+      <div class="kv">
+        <div><span>Paket</span><b id="lg-o-name">–</b></div>
+        <div><span>Harga</span><b id="lg-o-price">–</b></div>
+      </div>
+      <div>
+        <h3>Cara pembayaran</h3>
+        <p class="pre" id="lg-pay"></p>
+      </div>
+      <div class="field"><label for="lg-note">Catatan pembayaran</label><input type="text" id="lg-note" maxlength="300" placeholder="mis. transfer atas nama Budi, 15 November pukul 10.20" autocomplete="off"><span class="hint">Membantu admin mencocokkan pembayaran Anda.</span></div>
+      <p class="msg" id="lg-msg" role="alert" hidden></p>
+      <div class="row"><button class="btn" type="submit">Kirim pesanan</button><button class="btn ghost" type="button" id="lg-cancel">Batal</button></div>
+      <p class="small muted">Langganan aktif setelah admin mengonfirmasi pembayaran Anda.</p>
+    </form>
+
+    <div id="lg-history-wrap" hidden>
+      <h2 style="margin-top: 24px">Riwayat langganan</h2>
+      <div class="table-wrap" style="margin-top: 16px">
+        <table>
+          <thead><tr><th>Paket</th><th class="r">Harga</th><th>Durasi</th><th>Dipesan</th><th>Status</th><th>Masa berlaku</th></tr></thead>
+          <tbody id="lg-history"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+<footer class="site-footer">
+  <div class="container">
+    <div class="about stack">
+      <a class="logo" href="./"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#0a6b5e"/><path d="M7 22h18" stroke="#fff" stroke-width="2" stroke-linecap="round"/><path d="M9 22v-4M13 22v-7M17 22v-4M21 22v-10M25 22v-4" stroke="#fff" stroke-width="2" stroke-linecap="round"/><circle cx="21" cy="9" r="2" fill="#f0b23a"/></svg><span>Updatin</span></a>
+      <p class="muted">Menakar nilai kreator dengan data. Alat rate card, engagement rate, dan kerja sama KOL untuk TikTok, Instagram, dan YouTube.</p>
+    </div>
+    <div><h3>Untuk KOL</h3><ul><li><a href="./rate-card">Buat Rate Card</a></li><li><a href="./cek-er">Cek ER</a></li><li><a href="./mou">Buat MoU</a></li></ul></div>
+    <div><h3>Untuk Brand</h3><ul><li><a href="./ranking">Ranking KOL</a></li><li><a href="./dashboard">Shortlist KOL</a></li><li><a href="./dashboard">Laporan Kampanye</a></li></ul></div>
+    <div><h3>Akun</h3><ul><li><a href="./langganan">Harga dan langganan</a></li><li><a href="./masuk">Masuk atau daftar</a></li><li><a href="./kamus">Kamus KOL</a></li></ul></div>
+    <p class="legal">Estimasi tarif dihitung dari rumus yang dijelaskan di halaman Rate Card dan bukan harga resmi dari kreator. Cek ER, Kamus KOL, dan pratinjau rate card terbuka untuk semua pengunjung; fitur lain memerlukan akun dengan langganan aktif.</p>
+  </div>
+</footer>
+<script src="./config.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" defer></script>
+<script src="./app.js" defer></script>
+</body>
+</html>
