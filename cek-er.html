@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Cek ER: Kalkulator Engagement Rate TikTok, Instagram, YouTube</title>
+<meta name="description" content="Updatin | Hitung engagement rate dari jumlah pengikut atau tayangan, lengkap dengan kategori akun dan penilaian hasilnya.">
+<meta property="og:title" content="Cek ER: Kalkulator Engagement Rate TikTok, Instagram, YouTube">
+<meta property="og:description" content="Updatin | Hitung engagement rate dari jumlah pengikut atau tayangan, lengkap dengan kategori akun dan penilaian hasilnya.">
+<meta property="og:type" content="website">
+<link rel="icon" href="./favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600;700&family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap">
+<link rel="stylesheet" href="./styles.css">
+</head>
+<body data-page="cek-er">
+<header class="site-header">
+  <div class="container">
+    <a class="logo" href="./" aria-label="Updatin, beranda"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#0a6b5e"/><path d="M7 22h18" stroke="#fff" stroke-width="2" stroke-linecap="round"/><path d="M9 22v-4M13 22v-7M17 22v-4M21 22v-10M25 22v-4" stroke="#fff" stroke-width="2" stroke-linecap="round"/><circle cx="21" cy="9" r="2" fill="#f0b23a"/></svg><span>Updatin</span></a>
+    <button class="nav-toggle" type="button" aria-label="Buka menu" aria-expanded="false" aria-controls="nav"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+    <nav class="nav" id="nav" aria-label="Menu utama"><a href="./ranking">Ranking KOL</a><a href="./rate-card">Buat Rate Card</a><a href="./cek-er" aria-current="page">Cek ER</a><a href="./mou">Buat MoU</a><a href="./kamus">Kamus KOL</a><a class="btn" href="./dashboard">Dashboard</a></nav>
+  </div>
+</header>
+<main>
+<section class="page-head">
+  <div class="container">
+    <span class="eyebrow">Alat gratis</span>
+    <h1>Cek engagement rate</h1>
+    <p class="lead">Masukkan rata-rata dari 10 sampai 12 konten terakhir agar hasilnya tidak terpengaruh satu konten yang kebetulan viral.</p>
+  </div>
+  <div class="ruler" aria-hidden="true"></div>
+</section>
+
+<section class="section tight">
+  <div class="container split">
+    <form class="panel stack" id="er-form" novalidate>
+      <h2>Data akun</h2>
+      <div class="field">
+        <span class="label" id="er-platform-label">Platform</span>
+        <div class="seg" id="er-platform" role="group" aria-labelledby="er-platform-label"></div>
+      </div>
+      <div class="form-grid">
+        <div class="field full"><label for="er-followers">Jumlah pengikut</label><input class="num" type="text" inputmode="numeric" id="er-followers" value="248.000"></div>
+        <div class="field"><label for="er-likes">Rata-rata suka per konten</label><input class="num" type="text" inputmode="numeric" id="er-likes" value="11.200"></div>
+        <div class="field"><label for="er-comments">Rata-rata komentar</label><input class="num" type="text" inputmode="numeric" id="er-comments" value="640"></div>
+        <div class="field"><label for="er-shares">Rata-rata dibagikan</label><input class="num" type="text" inputmode="numeric" id="er-shares" value="980"></div>
+        <div class="field"><label for="er-saves">Rata-rata disimpan</label><input class="num" type="text" inputmode="numeric" id="er-saves" value="570"><span class="hint">Kosongkan jika tidak tersedia.</span></div>
+        <div class="field full"><label for="er-views">Rata-rata tayangan per konten</label><input class="num" type="text" inputmode="numeric" id="er-views" value="96.000"><span class="hint">Diperlukan untuk ER berdasarkan tayangan.</span></div>
+      </div>
+      <p class="small muted">Angka awal di atas adalah contoh. Ganti dengan data dari insight akun Anda.</p>
+    </form>
+
+    <div class="stack sticky">
+      <div class="panel stack" aria-live="polite">
+        <div class="row" style="justify-content: space-between">
+          <h2 style="margin: 0">Hasil</h2>
+          <span class="badge" id="er-rating"></span>
+        </div>
+        <div>
+          <div class="result-big" id="er-result">0%</div>
+          <p class="small muted">Engagement rate berdasarkan pengikut</p>
+        </div>
+        <div class="meter" aria-hidden="true"><i id="er-meter" style="width: 0"></i></div>
+        <div class="kv">
+          <div><span>ER berdasarkan tayangan</span><b id="er-byviews">–</b></div>
+          <div><span>Tier akun</span><b id="er-tier">–</b></div>
+          <div><span>Total interaksi per konten</span><b id="er-total">–</b></div>
+          <div><span>Tayangan dibanding pengikut</span><b id="er-vf">–</b></div>
+        </div>
+        <p class="small" id="er-note"></p>
+        <div class="row"><a class="btn" id="er-to-rc" href="./rate-card">Pakai angka ini di Rate Card</a></div>
+      </div>
+      <div class="panel">
+        <h3>Cara hitung</h3>
+        <p class="small muted"><strong>ER berdasarkan pengikut</strong> = (suka + komentar + dibagikan + disimpan) ÷ pengikut × 100.<br><strong>ER berdasarkan tayangan</strong> = total interaksi ÷ tayangan × 100.<br>Penilaian memakai patokan umum: di bawah 1% rendah, 1 sampai 3% cukup, 3 sampai 6% baik, di atas 6% sangat baik. Akun kecil dan akun TikTok cenderung memiliki ER lebih tinggi, jadi bandingkan dengan akun setingkat.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+<footer class="site-footer">
+  <div class="container">
+    <div class="about stack">
+      <a class="logo" href="./"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#0a6b5e"/><path d="M7 22h18" stroke="#fff" stroke-width="2" stroke-linecap="round"/><path d="M9 22v-4M13 22v-7M17 22v-4M21 22v-10M25 22v-4" stroke="#fff" stroke-width="2" stroke-linecap="round"/><circle cx="21" cy="9" r="2" fill="#f0b23a"/></svg><span>Updatin</span></a>
+      <p class="muted">Menakar nilai kreator dengan data. Alat rate card, engagement rate, dan kerja sama KOL untuk TikTok, Instagram, dan YouTube.</p>
+    </div>
+    <div><h3>Untuk KOL</h3><ul><li><a href="./rate-card">Buat Rate Card</a></li><li><a href="./cek-er">Cek ER</a></li><li><a href="./mou">Buat MoU</a></li></ul></div>
+    <div><h3>Untuk Brand</h3><ul><li><a href="./ranking">Ranking KOL</a></li><li><a href="./dashboard">Shortlist KOL</a></li><li><a href="./dashboard">Laporan Kampanye</a></li></ul></div>
+    <div><h3>Belajar</h3><ul><li><a href="./kamus">Kamus KOL</a></li><li><a href="./#faq">Pertanyaan umum</a></li></ul></div>
+    <p class="legal">Versi awal. Daftar KOL pada situs ini adalah data contoh dengan akun fiktif, dan estimasi tarif dihitung dari rumus yang dijelaskan di halaman Rate Card. Data yang Anda isi tersimpan di browser Anda sendiri.</p>
+  </div>
+</footer>
+<script src="./app.js" defer></script>
+</body>
+</html>

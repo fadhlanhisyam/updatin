@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Buat MoU KOL: Draf Nota Kesepahaman Endorse</title>
+<meta name="description" content="Updatin | Susun draf MoU kerja sama brand dan KOL: ruang lingkup, nilai dan pembayaran, revisi, hak pakai konten, dan eksklusivitas.">
+<meta property="og:title" content="Buat MoU KOL: Draf Nota Kesepahaman Endorse">
+<meta property="og:description" content="Updatin | Susun draf MoU kerja sama brand dan KOL: ruang lingkup, nilai dan pembayaran, revisi, hak pakai konten, dan eksklusivitas.">
+<meta property="og:type" content="website">
+<link rel="icon" href="./favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600;700&family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap">
+<link rel="stylesheet" href="./styles.css">
+</head>
+<body data-page="mou">
+<header class="site-header">
+  <div class="container">
+    <a class="logo" href="./" aria-label="Updatin, beranda"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#0a6b5e"/><path d="M7 22h18" stroke="#fff" stroke-width="2" stroke-linecap="round"/><path d="M9 22v-4M13 22v-7M17 22v-4M21 22v-10M25 22v-4" stroke="#fff" stroke-width="2" stroke-linecap="round"/><circle cx="21" cy="9" r="2" fill="#f0b23a"/></svg><span>Updatin</span></a>
+    <button class="nav-toggle" type="button" aria-label="Buka menu" aria-expanded="false" aria-controls="nav"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+    <nav class="nav" id="nav" aria-label="Menu utama"><a href="./ranking">Ranking KOL</a><a href="./rate-card">Buat Rate Card</a><a href="./cek-er">Cek ER</a><a href="./mou" aria-current="page">Buat MoU</a><a href="./kamus">Kamus KOL</a><a class="btn" href="./dashboard">Dashboard</a></nav>
+  </div>
+</header>
+<main>
+<section class="page-head">
+  <div class="container">
+    <span class="eyebrow">Alat gratis</span>
+    <h1>Buat MoU kerja sama</h1>
+    <p class="lead">Isi rincian kerja sama dan dapatkan draf nota kesepahaman yang siap dirundingkan kedua pihak.</p>
+  </div>
+  <div class="ruler" aria-hidden="true"></div>
+</section>
+
+<section class="section tight">
+  <div class="container split">
+    <form class="stack" id="mou-form" novalidate>
+      <div class="panel stack">
+        <h2>Para pihak</h2>
+        <div class="form-grid">
+          <div class="field"><label for="mou-brand">Nama brand / perusahaan</label><input type="text" id="mou-brand" autocomplete="off"></div>
+          <div class="field"><label for="mou-pic">Nama wakil brand</label><input type="text" id="mou-pic" autocomplete="off"></div>
+          <div class="field"><label for="mou-kol">Nama KOL</label><input type="text" id="mou-kol" autocomplete="off"></div>
+          <div class="field"><label for="mou-handle">Nama akun KOL</label><input type="text" id="mou-handle" placeholder="@namaakun" autocomplete="off"></div>
+        </div>
+      </div>
+      <div class="panel stack">
+        <h2>Rincian kerja sama</h2>
+        <div class="form-grid">
+          <div class="field"><label for="mou-platform">Platform</label><select id="mou-platform"></select></div>
+          <div class="field"><label for="mou-date">Tanggal tayang</label><input type="date" id="mou-date"></div>
+          <div class="field full"><label for="mou-deliver">Konten yang dikerjakan</label><textarea id="mou-deliver">1 (satu) video TikTok berdurasi 30–60 detik
+3 (tiga) slide Instagram Story dengan tautan produk</textarea><span class="hint">Satu baris untuk satu jenis konten.</span></div>
+          <div class="field"><label for="mou-fee">Nilai kerja sama (Rp)</label><input class="num" type="text" inputmode="numeric" id="mou-fee" value="4.500.000"></div>
+          <div class="field"><label for="mou-pay">Cara pembayaran</label><select id="mou-pay">
+            <option value="dp">50% di muka, 50% setelah tayang</option>
+            <option value="after">100% setelah tayang</option>
+            <option value="before">100% di muka</option>
+          </select></div>
+          <div class="field"><label for="mou-rev">Batas revisi</label><select id="mou-rev"><option value="1">1 kali</option><option value="2" selected>2 kali</option><option value="3">3 kali</option></select></div>
+          <div class="field"><label for="mou-keep">Konten tetap tayang minimal</label><select id="mou-keep"><option value="30">30 hari</option><option value="90" selected>90 hari</option><option value="180">180 hari</option><option value="365">1 tahun</option></select></div>
+          <div class="field"><label for="mou-usage">Hak pakai konten oleh brand</label><select id="mou-usage">
+            <option value="none">Hanya repost di akun brand</option>
+            <option value="30" selected>Boleh diiklankan selama 30 hari</option>
+            <option value="90">Boleh diiklankan selama 90 hari</option>
+            <option value="180">Boleh diiklankan selama 180 hari</option>
+          </select></div>
+          <div class="field"><label for="mou-excl">Eksklusivitas</label><select id="mou-excl">
+            <option value="0">Tidak ada</option>
+            <option value="14" selected>14 hari tanpa produk pesaing</option>
+            <option value="30">30 hari tanpa produk pesaing</option>
+          </select></div>
+          <div class="field"><label for="mou-city">Kota penandatanganan</label><input type="text" id="mou-city" value="Jakarta" autocomplete="off"></div>
+          <div class="field"><label for="mou-signdate">Tanggal penandatanganan</label><input type="date" id="mou-signdate"></div>
+        </div>
+      </div>
+      <div class="notice"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.5v.5"/></svg><span>Draf ini adalah templat awal, bukan nasihat hukum. Untuk kerja sama bernilai besar, mintalah pemeriksaan ahli hukum sebelum ditandatangani.</span></div>
+    </form>
+
+    <div class="stack sticky">
+      <div class="doc print-area" id="mou-doc"></div>
+      <div class="row">
+        <button class="btn" type="button" id="mou-copy">Salin teks</button>
+        <button class="btn ghost" type="button" id="mou-print">Cetak / simpan PDF</button>
+      </div>
+      <p class="small muted">Bagian berlatar kuning belum diisi.</p>
+    </div>
+  </div>
+</section>
+
+</main>
+<footer class="site-footer">
+  <div class="container">
+    <div class="about stack">
+      <a class="logo" href="./"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#0a6b5e"/><path d="M7 22h18" stroke="#fff" stroke-width="2" stroke-linecap="round"/><path d="M9 22v-4M13 22v-7M17 22v-4M21 22v-10M25 22v-4" stroke="#fff" stroke-width="2" stroke-linecap="round"/><circle cx="21" cy="9" r="2" fill="#f0b23a"/></svg><span>Updatin</span></a>
+      <p class="muted">Menakar nilai kreator dengan data. Alat rate card, engagement rate, dan kerja sama KOL untuk TikTok, Instagram, dan YouTube.</p>
+    </div>
+    <div><h3>Untuk KOL</h3><ul><li><a href="./rate-card">Buat Rate Card</a></li><li><a href="./cek-er">Cek ER</a></li><li><a href="./mou">Buat MoU</a></li></ul></div>
+    <div><h3>Untuk Brand</h3><ul><li><a href="./ranking">Ranking KOL</a></li><li><a href="./dashboard">Shortlist KOL</a></li><li><a href="./dashboard">Laporan Kampanye</a></li></ul></div>
+    <div><h3>Belajar</h3><ul><li><a href="./kamus">Kamus KOL</a></li><li><a href="./#faq">Pertanyaan umum</a></li></ul></div>
+    <p class="legal">Versi awal. Daftar KOL pada situs ini adalah data contoh dengan akun fiktif, dan estimasi tarif dihitung dari rumus yang dijelaskan di halaman Rate Card. Data yang Anda isi tersimpan di browser Anda sendiri.</p>
+  </div>
+</footer>
+<script src="./app.js" defer></script>
+</body>
+</html>

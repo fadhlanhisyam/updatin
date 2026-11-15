@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Buat Rate Card KOL TikTok, Instagram, YouTube</title>
+<meta name="description" content="Updatin | Susun rate card dari data akun: estimasi tarif per format, bisa diubah, lalu simpan sebagai PDF atau salin sebagai teks.">
+<meta property="og:title" content="Buat Rate Card KOL TikTok, Instagram, YouTube">
+<meta property="og:description" content="Updatin | Susun rate card dari data akun: estimasi tarif per format, bisa diubah, lalu simpan sebagai PDF atau salin sebagai teks.">
+<meta property="og:type" content="website">
+<link rel="icon" href="./favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600;700&family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap">
+<link rel="stylesheet" href="./styles.css">
+</head>
+<body data-page="rate-card">
+<header class="site-header">
+  <div class="container">
+    <a class="logo" href="./" aria-label="Updatin, beranda"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#0a6b5e"/><path d="M7 22h18" stroke="#fff" stroke-width="2" stroke-linecap="round"/><path d="M9 22v-4M13 22v-7M17 22v-4M21 22v-10M25 22v-4" stroke="#fff" stroke-width="2" stroke-linecap="round"/><circle cx="21" cy="9" r="2" fill="#f0b23a"/></svg><span>Updatin</span></a>
+    <button class="nav-toggle" type="button" aria-label="Buka menu" aria-expanded="false" aria-controls="nav"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+    <nav class="nav" id="nav" aria-label="Menu utama"><a href="./ranking">Ranking KOL</a><a href="./rate-card" aria-current="page">Buat Rate Card</a><a href="./cek-er">Cek ER</a><a href="./mou">Buat MoU</a><a href="./kamus">Kamus KOL</a><a class="btn" href="./dashboard">Dashboard</a></nav>
+  </div>
+</header>
+<main>
+<section class="page-head">
+  <div class="container">
+    <span class="eyebrow">Untuk KOL &amp; kreator</span>
+    <h1>Buat rate card</h1>
+    <p class="lead">Isi data akun, periksa estimasi tarif, lalu sesuaikan harganya. Pratinjau di kanan berubah seketika.</p>
+  </div>
+  <div class="ruler" aria-hidden="true"></div>
+</section>
+
+<section class="section tight">
+  <div class="container split">
+    <form class="stack" id="rc-form" novalidate>
+      <div class="panel stack">
+        <h2>Profil</h2>
+        <div class="field">
+          <span class="label" id="rc-platform-label">Platform</span>
+          <div class="seg" id="rc-platform" role="group" aria-labelledby="rc-platform-label"></div>
+        </div>
+        <div class="form-grid">
+          <div class="field"><label for="rc-name">Nama</label><input type="text" id="rc-name" value="Laras Wijaya" autocomplete="off"></div>
+          <div class="field"><label for="rc-handle">Nama akun</label><input type="text" id="rc-handle" value="@dapurlaras_demo" autocomplete="off"></div>
+          <div class="field"><label for="rc-niche">Niche</label><select id="rc-niche"></select></div>
+          <div class="field"><label for="rc-city">Kota</label><input type="text" id="rc-city" value="Bandung" autocomplete="off"></div>
+          <div class="field full"><label for="rc-contact">Kontak kerja sama</label><input type="text" id="rc-contact" placeholder="email atau nomor WhatsApp bisnis" autocomplete="off"><span class="hint">Opsional. Hanya tampil di rate card Anda dan tersimpan di browser ini.</span></div>
+        </div>
+        <p class="small muted">Isian awal adalah contoh. Ganti dengan data Anda.</p>
+      </div>
+
+      <div class="panel stack">
+        <h2>Data performa</h2>
+        <div class="form-grid">
+          <div class="field"><label for="rc-followers">Jumlah pengikut</label><input class="num" type="text" inputmode="numeric" id="rc-followers" value="248.000"></div>
+          <div class="field"><label for="rc-views">Rata-rata tayangan per konten</label><input class="num" type="text" inputmode="numeric" id="rc-views" value="96.000"></div>
+          <div class="field"><label for="rc-er">Engagement rate (%)</label><input class="num" type="text" inputmode="decimal" id="rc-er" value="5,4"><span class="hint">Belum tahu? <a href="./cek-er">Hitung di Cek ER</a>.</span></div>
+          <div class="field"><label for="rc-cpm">CPM dasar (Rp per 1.000 tayangan)</label><input class="num" type="text" inputmode="numeric" id="rc-cpm"><span class="hint">Asumsi awal per platform. Ubah sesuai pasar Anda.</span></div>
+        </div>
+      </div>
+
+      <div class="panel stack">
+        <div class="row" style="justify-content: space-between">
+          <h2 style="margin: 0">Tarif per format</h2>
+          <button class="btn ghost sm" type="button" id="rc-reset">Kembalikan ke estimasi</button>
+        </div>
+        <div class="stack" id="rc-prices"></div>
+        <p class="small muted">Harga terisi otomatis dari estimasi. Ketik angka lain untuk memakai harga Anda sendiri.</p>
+      </div>
+
+      <div class="panel">
+        <h3>Cara hitung estimasi</h3>
+        <p class="small muted">Tarif = (rata-rata tayangan ÷ 1.000) × CPM dasar × faktor niche × faktor ER × faktor format, lalu dibulatkan.</p>
+        <p class="small muted" id="rc-factors" style="margin-top: 8px"></p>
+        <p class="small muted" style="margin-top: 8px">Estimasi ini titik awal untuk berunding, bukan harga pasar resmi. Reputasi, kualitas produksi, dan eksklusivitas wajar menaikkan harga.</p>
+      </div>
+    </form>
+
+    <div class="stack sticky">
+      <div id="rc-preview"></div>
+      <div class="row">
+        <button class="btn" type="button" id="rc-save">Simpan ke dashboard</button>
+        <button class="btn ghost" type="button" id="rc-print">Cetak / simpan PDF</button>
+        <button class="btn ghost" type="button" id="rc-copy">Salin sebagai teks</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+<footer class="site-footer">
+  <div class="container">
+    <div class="about stack">
+      <a class="logo" href="./"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#0a6b5e"/><path d="M7 22h18" stroke="#fff" stroke-width="2" stroke-linecap="round"/><path d="M9 22v-4M13 22v-7M17 22v-4M21 22v-10M25 22v-4" stroke="#fff" stroke-width="2" stroke-linecap="round"/><circle cx="21" cy="9" r="2" fill="#f0b23a"/></svg><span>Updatin</span></a>
+      <p class="muted">Menakar nilai kreator dengan data. Alat rate card, engagement rate, dan kerja sama KOL untuk TikTok, Instagram, dan YouTube.</p>
+    </div>
+    <div><h3>Untuk KOL</h3><ul><li><a href="./rate-card">Buat Rate Card</a></li><li><a href="./cek-er">Cek ER</a></li><li><a href="./mou">Buat MoU</a></li></ul></div>
+    <div><h3>Untuk Brand</h3><ul><li><a href="./ranking">Ranking KOL</a></li><li><a href="./dashboard">Shortlist KOL</a></li><li><a href="./dashboard">Laporan Kampanye</a></li></ul></div>
+    <div><h3>Belajar</h3><ul><li><a href="./kamus">Kamus KOL</a></li><li><a href="./#faq">Pertanyaan umum</a></li></ul></div>
+    <p class="legal">Versi awal. Daftar KOL pada situs ini adalah data contoh dengan akun fiktif, dan estimasi tarif dihitung dari rumus yang dijelaskan di halaman Rate Card. Data yang Anda isi tersimpan di browser Anda sendiri.</p>
+  </div>
+</footer>
+<script src="./app.js" defer></script>
+</body>
+</html>

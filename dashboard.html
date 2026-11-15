@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Dashboard</title>
+<meta name="description" content="Updatin | Ruang kerja KOL dan brand: rate card tersimpan, shortlist KOL dengan estimasi biaya, dan laporan kampanye dengan CPM, CPE, serta ER.">
+<meta property="og:title" content="Dashboard">
+<meta property="og:description" content="Updatin | Ruang kerja KOL dan brand: rate card tersimpan, shortlist KOL dengan estimasi biaya, dan laporan kampanye dengan CPM, CPE, serta ER.">
+<meta property="og:type" content="website">
+<link rel="icon" href="./favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600;700&family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap">
+<link rel="stylesheet" href="./styles.css">
+</head>
+<body data-page="dashboard">
+<header class="site-header">
+  <div class="container">
+    <a class="logo" href="./" aria-label="Updatin, beranda"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#0a6b5e"/><path d="M7 22h18" stroke="#fff" stroke-width="2" stroke-linecap="round"/><path d="M9 22v-4M13 22v-7M17 22v-4M21 22v-10M25 22v-4" stroke="#fff" stroke-width="2" stroke-linecap="round"/><circle cx="21" cy="9" r="2" fill="#f0b23a"/></svg><span>Updatin</span></a>
+    <button class="nav-toggle" type="button" aria-label="Buka menu" aria-expanded="false" aria-controls="nav"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+    <nav class="nav" id="nav" aria-label="Menu utama"><a href="./ranking">Ranking KOL</a><a href="./rate-card">Buat Rate Card</a><a href="./cek-er">Cek ER</a><a href="./mou">Buat MoU</a><a href="./kamus">Kamus KOL</a><a class="btn" href="./dashboard">Dashboard</a></nav>
+  </div>
+</header>
+<main>
+<section class="page-head">
+  <div class="container">
+    <span class="eyebrow">Ruang kerja</span>
+    <h1>Dashboard</h1>
+    <div class="row" style="justify-content: space-between">
+      <div class="seg" id="db-role" role="group" aria-label="Pilih peran">
+        <button type="button" data-role="kol" aria-pressed="true">Saya KOL</button>
+        <button type="button" data-role="brand" aria-pressed="false">Saya brand / agency</button>
+      </div>
+      <span class="badge warn">Mode tanpa akun: data tersimpan di browser ini</span>
+    </div>
+  </div>
+  <div class="ruler" aria-hidden="true"></div>
+</section>
+
+<section class="section tight" id="db-kol">
+  <div class="container stack">
+    <div class="row" style="justify-content: space-between">
+      <h2>Rate card tersimpan</h2>
+      <a class="btn sm" href="./rate-card">Buat rate card baru</a>
+    </div>
+    <div class="grid c2" id="db-cards"></div>
+    <div class="panel empty" id="db-cards-empty" hidden>Belum ada rate card. Buat yang pertama di halaman <a href="./rate-card">Buat Rate Card</a>, lalu pilih “Simpan ke dashboard”.</div>
+
+    <h2 style="margin-top: 24px">Tawaran kerja sama</h2>
+    <div class="panel empty">Belum ada tawaran. Tawaran dari brand akan muncul di sini setelah fitur akun aktif.</div>
+  </div>
+</section>
+
+<section class="section tight" id="db-brand" hidden>
+  <div class="container stack">
+    <div class="row" style="justify-content: space-between">
+      <h2>Shortlist KOL</h2>
+      <a class="btn sm" href="./ranking">Tambah dari ranking</a>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>KOL</th><th>Platform</th><th>Niche</th><th class="r">Pengikut</th><th class="r">ER</th><th class="r">Estimasi 1 konten</th><th><span class="sr">Aksi</span></th></tr></thead>
+        <tbody id="db-shortlist"></tbody>
+        <tfoot><tr><td colspan="5"><strong>Total estimasi</strong></td><td class="r num"><strong id="db-shortlist-total">Rp 0</strong></td><td></td></tr></tfoot>
+      </table>
+    </div>
+
+    <div class="row" style="justify-content: space-between; margin-top: 24px">
+      <h2>Laporan kampanye</h2>
+      <button class="btn ghost sm" type="button" id="cp-clear">Kosongkan laporan</button>
+    </div>
+    <div class="notice" id="cp-sample-note" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.5v.5"/></svg><span>Baris berlabel <strong>Contoh</strong> hanya ilustrasi. Pilih “Kosongkan laporan” untuk memulai dengan data Anda.</span></div>
+
+    <div class="field" style="max-width: 320px"><label for="cp-budget">Total biaya kampanye (Rp)</label><input class="num" type="text" inputmode="numeric" id="cp-budget"></div>
+
+    <div class="kv c4" aria-live="polite">
+      <div><span>Total tayangan</span><b id="cp-views">–</b></div>
+      <div><span>Total interaksi</span><b id="cp-eng">–</b></div>
+      <div><span>ER kampanye (per tayangan)</span><b id="cp-er">–</b></div>
+      <div><span>Jumlah posting</span><b id="cp-n">–</b></div>
+      <div><span>CPM (biaya per 1.000 tayangan)</span><b id="cp-cpm">–</b></div>
+      <div><span>CPE (biaya per interaksi)</span><b id="cp-cpe">–</b></div>
+      <div><span>CPV (biaya per tayangan)</span><b id="cp-cpv">–</b></div>
+      <div><span>Posting terbaik (ER)</span><b id="cp-best">–</b></div>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Posting</th><th>Platform</th><th class="r">Tayangan</th><th class="r">Suka</th><th class="r">Komentar</th><th class="r">Dibagikan</th><th class="r">Disimpan</th><th class="r">ER</th><th><span class="sr">Aksi</span></th></tr></thead>
+        <tbody id="cp-body"></tbody>
+      </table>
+    </div>
+
+    <form class="panel stack" id="cp-form" novalidate>
+      <h3>Tambah posting</h3>
+      <div class="form-grid">
+        <div class="field"><label for="cp-link">Tautan atau nama posting</label><input type="text" id="cp-link" placeholder="mis. Video unboxing @namaakun" autocomplete="off"></div>
+        <div class="field"><label for="cp-platform">Platform</label><select id="cp-platform"></select></div>
+        <div class="field"><label for="cp-in-views">Tayangan</label><input class="num" type="text" inputmode="numeric" id="cp-in-views"></div>
+        <div class="field"><label for="cp-in-likes">Suka</label><input class="num" type="text" inputmode="numeric" id="cp-in-likes"></div>
+        <div class="field"><label for="cp-in-comments">Komentar</label><input class="num" type="text" inputmode="numeric" id="cp-in-comments"></div>
+        <div class="field"><label for="cp-in-shares">Dibagikan</label><input class="num" type="text" inputmode="numeric" id="cp-in-shares"></div>
+        <div class="field"><label for="cp-in-saves">Disimpan</label><input class="num" type="text" inputmode="numeric" id="cp-in-saves"></div>
+      </div>
+      <p class="small" id="cp-error" style="color: var(--bad)" hidden></p>
+      <div><button class="btn" type="submit">Tambah ke laporan</button></div>
+    </form>
+  </div>
+</section>
+
+</main>
+<footer class="site-footer">
+  <div class="container">
+    <div class="about stack">
+      <a class="logo" href="./"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#0a6b5e"/><path d="M7 22h18" stroke="#fff" stroke-width="2" stroke-linecap="round"/><path d="M9 22v-4M13 22v-7M17 22v-4M21 22v-10M25 22v-4" stroke="#fff" stroke-width="2" stroke-linecap="round"/><circle cx="21" cy="9" r="2" fill="#f0b23a"/></svg><span>Updatin</span></a>
+      <p class="muted">Menakar nilai kreator dengan data. Alat rate card, engagement rate, dan kerja sama KOL untuk TikTok, Instagram, dan YouTube.</p>
+    </div>
+    <div><h3>Untuk KOL</h3><ul><li><a href="./rate-card">Buat Rate Card</a></li><li><a href="./cek-er">Cek ER</a></li><li><a href="./mou">Buat MoU</a></li></ul></div>
+    <div><h3>Untuk Brand</h3><ul><li><a href="./ranking">Ranking KOL</a></li><li><a href="./dashboard">Shortlist KOL</a></li><li><a href="./dashboard">Laporan Kampanye</a></li></ul></div>
+    <div><h3>Belajar</h3><ul><li><a href="./kamus">Kamus KOL</a></li><li><a href="./#faq">Pertanyaan umum</a></li></ul></div>
+    <p class="legal">Versi awal. Daftar KOL pada situs ini adalah data contoh dengan akun fiktif, dan estimasi tarif dihitung dari rumus yang dijelaskan di halaman Rate Card. Data yang Anda isi tersimpan di browser Anda sendiri.</p>
+  </div>
+</footer>
+<script src="./app.js" defer></script>
+</body>
+</html>

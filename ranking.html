@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ranking KOL TikTok, Instagram, YouTube</title>
+<meta name="description" content="Updatin | Saring KOL berdasarkan platform, niche, dan tier, urutkan menurut engagement rate atau tayangan, lalu kumpulkan dalam shortlist.">
+<meta property="og:title" content="Ranking KOL TikTok, Instagram, YouTube">
+<meta property="og:description" content="Updatin | Saring KOL berdasarkan platform, niche, dan tier, urutkan menurut engagement rate atau tayangan, lalu kumpulkan dalam shortlist.">
+<meta property="og:type" content="website">
+<link rel="icon" href="./favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600;700&family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap">
+<link rel="stylesheet" href="./styles.css">
+</head>
+<body data-page="ranking">
+<header class="site-header">
+  <div class="container">
+    <a class="logo" href="./" aria-label="Updatin, beranda"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#0a6b5e"/><path d="M7 22h18" stroke="#fff" stroke-width="2" stroke-linecap="round"/><path d="M9 22v-4M13 22v-7M17 22v-4M21 22v-10M25 22v-4" stroke="#fff" stroke-width="2" stroke-linecap="round"/><circle cx="21" cy="9" r="2" fill="#f0b23a"/></svg><span>Updatin</span></a>
+    <button class="nav-toggle" type="button" aria-label="Buka menu" aria-expanded="false" aria-controls="nav"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+    <nav class="nav" id="nav" aria-label="Menu utama"><a href="./ranking" aria-current="page">Ranking KOL</a><a href="./rate-card">Buat Rate Card</a><a href="./cek-er">Cek ER</a><a href="./mou">Buat MoU</a><a href="./kamus">Kamus KOL</a><a class="btn" href="./dashboard">Dashboard</a></nav>
+  </div>
+</header>
+<main>
+<section class="page-head">
+  <div class="container">
+    <span class="eyebrow">Untuk brand &amp; agency</span>
+    <h1>Ranking KOL</h1>
+    <p class="lead">Saring berdasarkan platform, niche, dan tier. Tambahkan kandidat ke shortlist untuk melihat total estimasi biaya di dashboard.</p>
+  </div>
+  <div class="ruler" aria-hidden="true"></div>
+</section>
+
+<section class="section tight">
+  <div class="container stack">
+    <div class="notice"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.5v.5"/></svg><span><strong>Data contoh.</strong> Semua akun di bawah ini fiktif dan dipakai untuk menunjukkan cara kerja fitur.</span></div>
+
+    <div class="filters">
+      <div class="field"><label for="rk-q">Cari nama atau akun</label><input type="search" id="rk-q" placeholder="mis. dapur, laras" autocomplete="off"></div>
+      <div class="field"><label for="rk-platform">Platform</label><select id="rk-platform"><option value="">Semua</option></select></div>
+      <div class="field"><label for="rk-niche">Niche</label><select id="rk-niche"><option value="">Semua</option></select></div>
+      <div class="field"><label for="rk-tier">Tier</label><select id="rk-tier"><option value="">Semua</option><option>Nano</option><option>Micro</option><option>Macro</option><option>Mega</option></select></div>
+      <div class="field"><label for="rk-sort">Urutkan</label><select id="rk-sort"><option value="followers">Pengikut terbanyak</option><option value="er">ER tertinggi</option><option value="views">Tayangan tertinggi</option><option value="price">Estimasi termurah</option></select></div>
+    </div>
+
+    <div class="row" style="justify-content: space-between">
+      <p class="small muted" id="rk-count" aria-live="polite"></p>
+      <a class="btn ghost sm" href="./dashboard" id="rk-shortlist-link">Shortlist (0)</a>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>#</th><th>KOL</th><th>Platform</th><th>Niche</th><th>Tier</th><th class="r">Pengikut</th><th class="r">Rata-rata tayangan</th><th class="r">ER</th><th class="r">Estimasi 1 konten</th><th><span class="sr">Aksi</span></th></tr></thead>
+        <tbody id="rk-body"></tbody>
+      </table>
+    </div>
+    <p class="small muted">Estimasi adalah tarif satu konten utama (video TikTok, Reels Instagram, atau video khusus YouTube) menurut rumus Updatin, bukan harga resmi dari kreator.</p>
+  </div>
+</section>
+
+</main>
+<footer class="site-footer">
+  <div class="container">
+    <div class="about stack">
+      <a class="logo" href="./"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#0a6b5e"/><path d="M7 22h18" stroke="#fff" stroke-width="2" stroke-linecap="round"/><path d="M9 22v-4M13 22v-7M17 22v-4M21 22v-10M25 22v-4" stroke="#fff" stroke-width="2" stroke-linecap="round"/><circle cx="21" cy="9" r="2" fill="#f0b23a"/></svg><span>Updatin</span></a>
+      <p class="muted">Menakar nilai kreator dengan data. Alat rate card, engagement rate, dan kerja sama KOL untuk TikTok, Instagram, dan YouTube.</p>
+    </div>
+    <div><h3>Untuk KOL</h3><ul><li><a href="./rate-card">Buat Rate Card</a></li><li><a href="./cek-er">Cek ER</a></li><li><a href="./mou">Buat MoU</a></li></ul></div>
+    <div><h3>Untuk Brand</h3><ul><li><a href="./ranking">Ranking KOL</a></li><li><a href="./dashboard">Shortlist KOL</a></li><li><a href="./dashboard">Laporan Kampanye</a></li></ul></div>
+    <div><h3>Belajar</h3><ul><li><a href="./kamus">Kamus KOL</a></li><li><a href="./#faq">Pertanyaan umum</a></li></ul></div>
+    <p class="legal">Versi awal. Daftar KOL pada situs ini adalah data contoh dengan akun fiktif, dan estimasi tarif dihitung dari rumus yang dijelaskan di halaman Rate Card. Data yang Anda isi tersimpan di browser Anda sendiri.</p>
+  </div>
+</footer>
+<script src="./app.js" defer></script>
+</body>
+</html>
