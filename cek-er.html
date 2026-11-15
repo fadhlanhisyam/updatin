@@ -27,13 +27,24 @@
   <div class="container">
     <span class="eyebrow">Alat gratis</span>
     <h1>Cek engagement rate</h1>
-    <p class="lead">Masukkan rata-rata dari 10 sampai 12 konten terakhir agar hasilnya tidak terpengaruh satu konten yang kebetulan viral.</p>
+    <p class="lead">Tempel tautan profil untuk menghitung otomatis, atau isi sendiri rata-rata dari 10 sampai 12 konten terakhir.</p>
   </div>
   <div class="ruler" aria-hidden="true"></div>
 </section>
 
 <section class="section tight">
   <div class="container split">
+    <div class="stack">
+    <div class="panel stack">
+      <h2>Ambil dari tautan profil</h2>
+      <p class="muted small">Tempel tautan profil TikTok, Instagram, atau YouTube. Angka di bawah terisi otomatis dari konten terbaru akun tersebut.</p>
+      <form class="row" id="er-auto-form" novalidate style="align-items: flex-end">
+        <div class="field" style="flex: 1 1 240px"><label for="er-url">Tautan profil</label><input type="text" id="er-url" placeholder="https://www.tiktok.com/@namaakun" autocomplete="off" inputmode="url"></div>
+        <button class="btn" type="submit" id="er-fetch">Ambil data</button>
+      </form>
+      <p class="msg" id="er-auto-msg" role="status" hidden></p>
+      <div class="notice" id="er-auto-lock" hidden></div>
+    </div>
     <form class="panel stack" id="er-form" novalidate>
       <h2>Data akun</h2>
       <div class="field">
@@ -48,8 +59,9 @@
         <div class="field"><label for="er-saves">Rata-rata disimpan</label><input class="num" type="text" inputmode="numeric" id="er-saves" value="570"><span class="hint">Kosongkan jika tidak tersedia.</span></div>
         <div class="field full"><label for="er-views">Rata-rata tayangan per konten</label><input class="num" type="text" inputmode="numeric" id="er-views" value="96.000"><span class="hint">Diperlukan untuk ER berdasarkan tayangan.</span></div>
       </div>
-      <p class="small muted">Angka awal di atas adalah contoh. Ganti dengan data dari insight akun Anda.</p>
+      <p class="small muted" id="er-example-note">Angka awal di atas adalah contoh. Ganti dengan data dari insight akun Anda, atau ambil otomatis dari tautan profil.</p>
     </form>
+    </div>
 
     <div class="stack sticky">
       <div class="panel stack" aria-live="polite">

@@ -88,12 +88,23 @@
       <h2>Daftar KOL</h2>
       <div class="table-wrap">
         <table>
-          <thead><tr><th>KOL</th><th>Platform</th><th>Niche</th><th class="r">Pengikut</th><th class="r">Tayangan</th><th class="r">ER</th><th><span class="sr">Aksi</span></th></tr></thead>
+          <thead><tr><th>KOL</th><th>Platform</th><th>Niche</th><th class="r">Pengikut</th><th class="r">Tayangan</th><th class="r">ER</th><th>Sumber data</th><th><span class="sr">Aksi</span></th></tr></thead>
           <tbody id="ad-kols"></tbody>
         </table>
       </div>
+      <form class="panel stack" id="ad-link-form" novalidate>
+        <h3>Tambah dari tautan profil</h3>
+        <p class="muted small">Nama, jumlah pengikut, rata-rata tayangan, dan ER diambil otomatis dari akun aslinya. Jika akun sudah ada di daftar, datanya diperbarui.</p>
+        <div class="form-grid">
+          <div class="field full"><label for="ad-link-url">Tautan profil TikTok, Instagram, atau YouTube</label><input type="text" id="ad-link-url" placeholder="https://www.instagram.com/namaakun" autocomplete="off" inputmode="url"></div>
+          <div class="field"><label for="ad-link-niche">Niche</label><select id="ad-link-niche"></select></div>
+          <div class="field"><label for="ad-link-city">Kota</label><input type="text" id="ad-link-city" autocomplete="off"><span class="hint">Opsional.</span></div>
+        </div>
+        <p class="msg" id="ad-link-msg" role="status" hidden></p>
+        <div><button class="btn" type="submit">Ambil data dan simpan</button></div>
+      </form>
       <form class="panel stack" id="ad-kol-form" novalidate>
-        <h3 id="ad-kol-title">Tambah KOL</h3>
+        <h3 id="ad-kol-title">Tambah KOL secara manual</h3>
         <input type="hidden" id="ad-kol-id">
         <div class="form-grid">
           <div class="field"><label for="ad-kol-name">Nama</label><input type="text" id="ad-kol-name" autocomplete="off"></div>

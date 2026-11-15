@@ -26,6 +26,20 @@ Pembatasan data dijaga di database (Row Level Security), bukan hanya di tampilan
 
 Login Google (opsional): aktifkan provider Google di Supabase (butuh OAuth Client ID dan Secret dari Google Cloud), lalu ubah `googleEnabled` menjadi `true` di `config.js`.
 
+## Data KOL asli dari tautan profil
+
+Edge Function `kol-data` (kode: `edge-function-kol-data.ts`) mengambil data profil dari tautan lalu menghitung rata-rata dan ER.
+
+| Platform | Sumber | Secret di Supabase |
+| --- | --- | --- |
+| YouTube | YouTube Data API v3 (resmi, gratis dalam kuota harian) | `YOUTUBE_API_KEY` |
+| Instagram | Apify, `apify/instagram-profile-scraper` | `APIFY_TOKEN` |
+| TikTok | Apify, `clockworks/tiktok-profile-scraper` | `APIFY_TOKEN` |
+
+Pasang lewat Supabase > Edge Functions (nama fungsi `kol-data`), lalu isi secret di Edge Functions > Secrets. Hanya pelanggan dan admin yang bisa memanggilnya; hasil disimpan 24 jam dan dibatasi 15 pengambilan baru per pengguna per hari.
+
+Dipakai di: Cek ER (tempel tautan profil) dan Panel admin > Daftar KOL (tambah dari tautan, tombol Perbarui).
+
 ## Alur langganan
 
 User memilih paket di halaman Harga, membayar sesuai instruksi, lalu admin mengaktifkan pesanannya di Panel admin > Langganan. Masa berlaku dihitung dalam bulan sejak diaktifkan, atau menyambung dari langganan yang masih berjalan.
@@ -43,5 +57,6 @@ User memilih paket di halaman Harga, membayar sesuai instruksi, lalu admin menga
 ## Batasan
 
 - Pembayaran dikonfirmasi manual oleh admin; belum terhubung ke payment gateway.
-- Daftar KOL awal adalah data contoh (akun fiktif berakhiran `_demo`); angka diisi manual, belum diambil dari API platform.
+- Daftar KOL awal adalah data contoh (akun fiktif berakhiran `_demo`). KOL asli ditambahkan admin dari tautan profil.
+- Kredit gratis Apify terbatas per bulan; TikTok paling boros karena dihitung per video.
 - Cetak dan salin rate card dikunci di tampilan; perhitungannya berjalan di browser.

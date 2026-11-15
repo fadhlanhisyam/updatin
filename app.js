@@ -19,6 +19,7 @@
   const fmtC = (n) => (n >= 1e9 ? short(n / 1e9) + " M" : n >= 1e6 ? short(n / 1e6) + " jt" : n >= 1e3 ? short(n / 1e3) + " rb" : String(Math.round(n)));
   const fmtPct = (n) => Number(n).toLocaleString("id-ID", { minimumFractionDigits: 1, maximumFractionDigits: 2 }) + "%";
   const fmtX = (n) => "×" + n.toLocaleString("id-ID", { maximumFractionDigits: 2 });
+  const fmtDay = (d) => new Date(d).toLocaleDateString("id-ID", { day: "numeric", month: "short", year: "numeric" });
   const fmtDate = (d) => (d ? new Date(d).toLocaleDateString("id-ID", { day: "numeric", month: "long", year: "numeric" }) : "–");
   const initials = (name) => String(name || "?").trim().split(/\s+/).slice(0, 2).map((w) => w[0] || "").join("").toUpperCase() || "?";
   const today = () => fmtDate(new Date());
@@ -128,6 +129,22 @@
     return data;
   }
 
+  // Data profil asli lewat Edge Function "kol-data" (lihat edge-function-kol-data.ts).
+  async function kolData(body) {
+    const { data } = await sb.auth.getSession();
+    const token = data && data.session ? data.session.access_token : "";
+    let res;
+    try {
+      res = await fetch(String(CFG.supabaseUrl).replace(/\/$/, "") + "/functions/v1/kol-data", { method: "POST", headers: { Authorization: "Bearer " + token, apikey: CFG.supabaseKey, "Content-Type": "application/json" }, body: JSON.stringify(body) });
+    } catch { throw new Error("Tidak bisa menghubungi server. Periksa koneksi internet Anda."); }
+    const out = await res.json().catch(() => ({}));
+    if (!res.ok) {
+      const ours = ["unauthorized", "forbidden", "bad_url", "bad_input", "not_found", "private", "empty", "timeout", "rate_limited", "not_configured", "provider_auth", "provider_quota", "provider_error", "db_error", "server_config", "error"].includes(out.code);
+      throw new Error(ours && out.message ? out.message : res.status === 404 ? "Pengambilan data otomatis belum dipasang di server." : `Permintaan gagal (${res.status}).`);
+    }
+    return out;
+  }
+
   const RANK = { guest: 0, user: 1, member: 2, admin: 3 };
   const me = { user: null, profile: null, level: "guest", subs: [], until: null, pending: null };
   const can = (level) => RANK[me.level] >= RANK[level];
@@ -225,7 +242,7 @@
       $("#rk-shortlist-link").textContent = `Shortlist (${shortlist.length})`;
       body.innerHTML = rows.length ? rows.map((k, i) => {
         const on = shortlist.includes(k.id), r = erRating(k.er);
-        return `<tr><td class="num">${i + 1}</td><td><div class="who-cell"><span class="avatar sm" aria-hidden="true">${esc(initials(k.name))}</span><div><strong>${esc(k.name)}</strong><span>${esc(k.handle)}${k.city ? " · " + esc(k.city) : ""}</span></div></div></td><td>${esc(platLabel(k.platform))}</td><td>${esc(k.niche)}</td><td><span class="badge">${tierOf(k.followers)}</span></td><td class="r num">${fmtC(k.followers)}</td><td class="r num">${fmtC(k.views)}</td><td class="r"><span class="badge ${r.cls}">${fmtPct(k.er)}</span></td><td class="r num">${fmtRp(mainPrice(k))}</td><td><button type="button" class="btn sm ${on ? "on" : "ghost"}" data-id="${esc(k.id)}" aria-pressed="${on}">${on ? "✓ Di shortlist" : "+ Shortlist"}</button></td></tr>`;
+        return `<tr><td class="num">${i + 1}</td><td><div class="who-cell"><span class="avatar sm" aria-hidden="true">${esc(initials(k.name))}</span><div><strong>${esc(k.name)}</strong><span>${esc(k.handle)}${k.city ? " · " + esc(k.city) : ""}${k.fetched_at ? " · data " + fmtDay(k.fetched_at) : ""}</span></div></div></td><td>${esc(platLabel(k.platform))}</td><td>${esc(k.niche)}</td><td><span class="badge">${tierOf(k.followers)}</span></td><td class="r num">${fmtC(k.followers)}</td><td class="r num">${fmtC(k.views)}</td><td class="r"><span class="badge ${r.cls}">${fmtPct(k.er)}</span></td><td class="r num">${fmtRp(mainPrice(k))}</td><td><button type="button" class="btn sm ${on ? "on" : "ghost"}" data-id="${esc(k.id)}" aria-pressed="${on}">${on ? "✓ Di shortlist" : "+ Shortlist"}</button></td></tr>`;
       }).join("") : `<tr><td colspan="10" class="empty">${kols.length ? "Tidak ada KOL yang cocok. Longgarkan saringan atau hapus kata pencarian." : "Daftar KOL masih kosong."}</td></tr>`;
     }
     [q, fp, fn, ft, fs].forEach((el) => el.addEventListener("input", render));
@@ -272,6 +289,31 @@
     $("#er-form").addEventListener("input", calc);
     $("#er-form").addEventListener("submit", (e) => e.preventDefault());
     calc();
+
+    // Isi otomatis dari tautan profil (pelanggan dan admin)
+    const autoMsg = $("#er-auto-msg"), lock = $("#er-auto-lock"), btn = $("#er-fetch");
+    $("#er-auto-form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      if (!can("member")) {
+        const c = gateCopy("member", "Cek ER otomatis dari tautan profil");
+        lock.innerHTML = `<span>${LOCK}</span><div class="stack" style="gap: 8px"><span><strong>${esc(c.h)}.</strong> ${esc(c.p)}</span><div class="row">${c.a.replace(/next=[^"&]*/g, "next=cek-er")}</div></div>`;
+        lock.hidden = false; return;
+      }
+      const url = $("#er-url").value.trim();
+      if (!url) { setMsg(autoMsg, "Tempel tautan profil terlebih dahulu."); $("#er-url").focus(); return; }
+      btn.disabled = true; setMsg(autoMsg, "Mengambil data… untuk TikTok dan Instagram bisa memakan waktu sampai 1 menit.", true);
+      try {
+        const d = await kolData({ url });
+        platform = d.platform;
+        $$("#er-platform button").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.v === d.platform)));
+        const put = (id, v) => { $("#er-" + id).value = v === null || v === undefined ? "" : fmtInt(v); };
+        put("followers", d.followers); put("likes", d.avg_likes); put("comments", d.avg_comments); put("shares", d.avg_shares); put("saves", d.avg_saves); put("views", d.avg_views);
+        calc(); $("#er-example-note").hidden = true;
+        const when = new Date(d.fetched_at).toLocaleString("id-ID", { day: "numeric", month: "long", year: "numeric", hour: "2-digit", minute: "2-digit" });
+        setMsg(autoMsg, d.sample ? `${d.name} (@${d.handle}) di ${platLabel(d.platform)}: rata-rata dari ${d.sample} konten terakhir${d.followers === null ? ", jumlah pengikut disembunyikan pemilik akun" : ""}. Sumber: ${d.source}, diambil ${when}.` : `${d.name} (@${d.handle}) ditemukan, tetapi belum ada konten publik untuk dihitung.`, true);
+      } catch (err) { setMsg(autoMsg, err.message); }
+      btn.disabled = false;
+    });
   };
 
   PAGES["rate-card"] = async () => {
@@ -681,7 +723,7 @@
       async kol() {
         const kols = await db(sb.from("kols").select("*").order("followers", { ascending: false }));
         loaders.kol.rows = kols;
-        $("#ad-kols").innerHTML = kols.length ? kols.map((k) => `<tr><td><div class="who-cell"><div><strong>${esc(k.name)}</strong><span>${esc(k.handle)}${k.city ? " · " + esc(k.city) : ""}</span></div></div></td><td>${esc(platLabel(k.platform))}</td><td>${esc(k.niche)}</td><td class="r num">${fmtInt(k.followers)}</td><td class="r num">${fmtInt(k.views)}</td><td class="r num">${fmtPct(k.er)}</td><td>${actions(k.id, "data-edit")}</td></tr>`).join("") : `<tr><td colspan="7" class="empty">Daftar KOL kosong. Tambahkan KOL lewat formulir di bawah.</td></tr>`;
+        $("#ad-kols").innerHTML = kols.length ? kols.map((k) => `<tr><td><div class="who-cell"><div><strong>${esc(k.name)}</strong><span>${esc(k.handle)}${k.city ? " · " + esc(k.city) : ""}</span></div></div></td><td>${esc(platLabel(k.platform))}</td><td>${esc(k.niche)}</td><td class="r num">${fmtInt(k.followers)}</td><td class="r num">${fmtInt(k.views)}</td><td class="r num">${fmtPct(k.er)}</td><td>${k.fetched_at ? `<span class="badge ok">Asli</span> ${fmtDay(k.fetched_at)}` : `<span class="badge">Manual</span>`}</td><td><div class="row" style="gap: 6px; flex-wrap: nowrap">${k.source_url ? `<button type="button" class="btn ghost sm" data-refresh="${esc(k.id)}">Perbarui</button>` : ""}<button type="button" class="btn ghost sm" data-edit="${esc(k.id)}">Ubah</button><button type="button" class="btn danger sm" data-del="${esc(k.id)}">Hapus</button></div></td></tr>`).join("") : `<tr><td colspan="8" class="empty">Daftar KOL kosong. Tambahkan KOL lewat formulir di bawah.</td></tr>`;
       },
       async pengguna() {
         await loadProfiles();
@@ -746,7 +788,7 @@
     fillSelect($("#ad-kol-platform"), platformOptions);
     fillSelect($("#ad-kol-niche"), Object.keys(NICHES).map((n) => [n, n]));
     crud({
-      key: "kol", table: "kols", tbody: "ad-kols", form: "ad-kol-form", title: "ad-kol-title", labels: ["Tambah KOL", "Ubah KOL"],
+      key: "kol", table: "kols", tbody: "ad-kols", form: "ad-kol-form", title: "ad-kol-title", labels: ["Tambah KOL secara manual", "Ubah KOL"],
       read: () => ({ name: val("ad-kol-name"), handle: val("ad-kol-handle"), platform: $("#ad-kol-platform").value, niche: $("#ad-kol-niche").value, city: val("ad-kol-city"), followers: int(val("ad-kol-followers")), views: int(val("ad-kol-views")), er: Math.round(dec(val("ad-kol-er")) * 100) / 100 }),
       fill: (k) => { $("#ad-kol-name").value = k.name; $("#ad-kol-handle").value = k.handle; $("#ad-kol-platform").value = k.platform; if (![...$("#ad-kol-niche").options].some((o) => o.value === k.niche)) fillSelect($("#ad-kol-niche"), [[k.niche, k.niche]]); $("#ad-kol-niche").value = k.niche; $("#ad-kol-city").value = k.city || ""; $("#ad-kol-followers").value = fmtInt(k.followers); $("#ad-kol-views").value = fmtInt(k.views); $("#ad-kol-er").value = String(k.er).replace(".", ","); },
       validate: (k) => (!k.name ? "Isi nama KOL." : !k.handle ? "Isi nama akun." : k.er > 100 ? "Engagement rate tidak boleh lebih dari 100%." : ""),
@@ -756,6 +798,27 @@
       read: () => ({ term: val("ad-term"), definition: val("ad-def") }),
       fill: (t) => { $("#ad-term").value = t.term; $("#ad-def").value = t.definition; },
       validate: (t) => (!t.term ? "Isi istilah." : !t.definition ? "Isi penjelasan." : ""),
+    });
+
+    // KOL dari tautan profil: tambah baru atau perbarui data
+    fillSelect($("#ad-link-niche"), Object.keys(NICHES).map((n) => [n, n]));
+    $("#ad-link-form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const msgEl = $("#ad-link-msg"), btn = $("button[type=submit]", e.target), url = val("ad-link-url");
+      if (!url) { setMsg(msgEl, "Tempel tautan profil terlebih dahulu."); return; }
+      btn.disabled = true; setMsg(msgEl, "Mengambil data… untuk TikTok dan Instagram bisa memakan waktu sampai 1 menit.", true);
+      try {
+        const d = await kolData({ url, save: true, niche: $("#ad-link-niche").value, city: val("ad-link-city") });
+        setMsg(msgEl, `${d.name} (@${d.handle}) ${d.updated ? "diperbarui" : "ditambahkan"}: ${fmtC(d.followers || 0)} pengikut, ER ${d.er === null ? "–" : fmtPct(d.er)}.`, true);
+        $("#ad-link-url").value = ""; $("#ad-link-city").value = ""; await loaders.kol();
+      } catch (err) { setMsg(msgEl, err.message); }
+      btn.disabled = false;
+    });
+    $("#ad-kols").addEventListener("click", async (e) => {
+      const b = e.target.closest("[data-refresh]"); if (!b) return;
+      b.disabled = true; b.textContent = "Mengambil…";
+      try { const d = await kolData({ kol_id: b.dataset.refresh, force: true }); toast(`Data @${d.handle} diperbarui`); await loaders.kol(); }
+      catch (err) { oops(err); b.disabled = false; b.textContent = "Perbarui"; }
     });
 
     // Instruksi pembayaran

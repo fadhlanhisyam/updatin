@@ -319,7 +319,37 @@ grant select, insert, update, delete on
 grant execute on function public.is_admin(), public.has_access() to anon, authenticated;
 grant execute on function public.request_subscription(uuid, text), public.decide_subscription(uuid, text), public.admin_stats() to authenticated;
 
--- 7. Data awal ---------------------------------------------------------------
+-- 7. Data KOL asli dari tautan profil (Edge Function kol-data) ----------------
+alter table public.kols add column if not exists source_url text;
+alter table public.kols add column if not exists fetched_at timestamptz;
+alter table public.kols add column if not exists stats jsonb;
+-- Nama akun yang sama boleh ada di platform berbeda.
+alter table public.kols drop constraint if exists kols_handle_key;
+create unique index if not exists kols_platform_handle_idx on public.kols (platform, lower(handle));
+
+-- Simpanan hasil 24 jam dan catatan pemakaian. Tanpa policy: hanya bisa diakses fungsi server.
+create table if not exists public.profile_cache (
+  platform text not null,
+  handle text not null,
+  data jsonb not null,
+  fetched_at timestamptz not null default now(),
+  primary key (platform, handle)
+);
+create table if not exists public.lookup_log (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null,
+  platform text not null,
+  handle text not null,
+  created_at timestamptz not null default now()
+);
+create index if not exists lookup_log_user_idx on public.lookup_log (user_id, created_at);
+alter table public.profile_cache enable row level security;
+alter table public.lookup_log enable row level security;
+
+grant usage on schema public to service_role;
+grant select, insert, update, delete on public.profile_cache, public.lookup_log, public.kols to service_role;
+
+-- 8. Data awal ---------------------------------------------------------------
 insert into public.settings (key, value) values ('payment_instructions', '') on conflict (key) do nothing;
 
 -- Contoh paket (nonaktif). Ubah harga dan aktifkan dari Panel admin > Paket.
@@ -353,7 +383,7 @@ insert into public.kols (name, handle, platform, niche, city, followers, views, 
   ('Kirana Dewanti', '@kiranamasak_demo', 'youtube', 'Kuliner', 'Solo', 96000, 28000, 4.8),
   ('Aldi Ramadhan', '@aldimaingame_demo', 'youtube', 'Gaming', 'Palembang', 3200000, 640000, 3),
   ('Wulan Septiani', '@wulanbelajaruang_demo', 'youtube', 'Keuangan', 'Jakarta', 58000, 17000, 5.5)
-on conflict (handle) do nothing;
+on conflict do nothing;
 
 -- Isi awal Kamus KOL.
 insert into public.glossary (term, definition) values
