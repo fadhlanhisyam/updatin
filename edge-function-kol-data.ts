@@ -159,15 +159,25 @@ async function fetchYouTube(ref, key) {
   });
 }
 
+// Kunci server: utamakan secret key baru (SUPABASE_SECRET_KEYS, kamus JSON), lalu kunci lama service_role.
+function serviceKey(env) {
+  try {
+    const dict = JSON.parse(env("SUPABASE_SECRET_KEYS") || "{}");
+    const v = dict.default ?? Object.values(dict)[0];
+    if (typeof v === "string" && v) return v;
+  } catch { /* pakai kunci lama */ }
+  return env("SUPABASE_SERVICE_ROLE_KEY");
+}
+
 // ---------- Handler ----------
 async function handle(req, env) {
   if (req.method === "OPTIONS") return new Response("ok", { headers: CORS });
   if (req.method !== "POST") return json({ code: "method", message: "Gunakan POST." }, 405);
   try {
-    const SB = env("SUPABASE_URL"), SERVICE = env("SUPABASE_SERVICE_ROLE_KEY");
+    const SB = env("SUPABASE_URL"), SERVICE = serviceKey(env);
     const apikey = req.headers.get("apikey") || env("SUPABASE_ANON_KEY");
     const token = (req.headers.get("Authorization") || "").replace(/^Bearer\s+/i, "");
-    if (!SB || !SERVICE) throw new Fail(500, "server_config", "Fungsi belum dikonfigurasi (SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY).");
+    if (!SB || !SERVICE) throw new Fail(500, "server_config", "Fungsi belum dikonfigurasi: kunci server Supabase tidak ditemukan.");
     if (!token) throw new Fail(401, "unauthorized", "Masuk terlebih dahulu.");
 
     // Siapa pemanggilnya, dan apakah punya akses
